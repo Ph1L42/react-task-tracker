@@ -4,6 +4,7 @@ import { useState } from "react";
 import AddTask from "./components/AddTask";
 
 const App = () => {
+  const [showAddTask, setShowAddTask] = useState(false);
   const [tasks, setTasks] = useState([
     {
       id: 1,
@@ -27,7 +28,7 @@ const App = () => {
 
   //Add Task
   const addTask = (task) => {
-    const id = Math.floor(Math.random() * 10000) + 1
+    const id = Math.floor(Math.random() * 10000) + 1;
 
     const newTask = { id, ...task };
     setTasks([...tasks, newTask]);
@@ -49,8 +50,11 @@ const App = () => {
 
   return (
     <div className="container">
-      <Header />
-      <AddTask onAdd={addTask}></AddTask>
+      <Header
+        onAdd={() => setShowAddTask(!showAddTask)}
+        showAdd={showAddTask}
+      />
+      {showAddTask && <AddTask onAdd={addTask}></AddTask>}
       {tasks.length > 0 ? (
         <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} />
       ) : (
